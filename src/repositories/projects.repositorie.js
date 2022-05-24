@@ -2,7 +2,7 @@ const Project = require('../models/projects.model')
 const User = require('../models/users.model')
 const { Op } = require('sequelize')
 
-const getAll = async (offset, limit, query) => {
+const getAll = async (offset, limit) => {
     const countAndRows = await Project.findAndCountAll({
         order: [['id', 'DESC']],
         offset,
