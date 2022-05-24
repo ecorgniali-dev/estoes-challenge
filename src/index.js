@@ -7,9 +7,16 @@ const config = require('./config/config')
 
 const indexRouter = require('./routes/index.routes')
 
+// docSwagger
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = swaggerJsDoc(require('./config/swagger'));
+
 // miidlewares
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Routes
 app.use('/', indexRouter)
