@@ -58,10 +58,32 @@ const remove = async (id) => {
     return data
 }
 
+const searchByName = async (name) => {
+    return await Project.findAll({
+        where: {
+            [Op.or]: [
+                {
+                    name: {
+                        [Op.like]: `%${name}%`
+                    }
+                }
+            ]
+        },
+        include: [{
+            model: User,
+            attributes: ['firstName', 'lastName'],
+            through: {
+                attributes: []
+            }
+        }]
+    })
+}
+
 module.exports = {
     getAll,
     getById,
     create,
     update,
-    remove
+    remove,
+    searchByName
 }

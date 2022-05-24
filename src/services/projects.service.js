@@ -2,6 +2,7 @@ const projectsRepositorie = require('../repositories/projects.repositorie')
 const { paginate } = require('../modules/pagination')
 
 const getAll = async (req) => {
+    if (req.query.name) return await projectsRepositorie.searchByName(req.query.name)
     const resultPaginated = paginate(projectsRepositorie.getAll, req, 3)
     return resultPaginated
 }
