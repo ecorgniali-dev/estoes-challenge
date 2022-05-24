@@ -2,10 +2,13 @@ const express = require('express')
 const app = express()
 const sequelize = require('./database/db.connection')
 require('./models/associations')
-
+const cors = require('cors')
 const config = require('./config/config')
 
 const indexRouter = require('./routes/index.routes')
+
+// cors
+app.use(cors())
 
 // docSwagger
 const swaggerJsDoc = require('swagger-jsdoc');
