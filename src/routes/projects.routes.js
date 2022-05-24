@@ -173,13 +173,9 @@ router.get('/:id', projectsController.getById)
  *     summary: 'Crear un nuevo proyecto'
  *     tags: [Projects]
  *     parameters:
- *     - in: param
- *       name: id
- *       schema:
- *         type: integer
  *     - name: 'body'
  *       in: body
- *       description: 'Campos necesarios para actualizar un registro'
+ *       description: 'Campos necesarios para crear un registro'
  *       schema:
  *         type: object
  *         properties:
