@@ -134,7 +134,7 @@ router.get('/', projectsController.getAll)
  *   get:
  *     summary: 'Listar un proyecto por su id'
  *     parameters:
- *       - in: param
+ *       - in: path
  *         name: id
  *         schema:
  *           type: integer
@@ -148,7 +148,7 @@ router.get('/', projectsController.getAll)
  *             data:
  *               $ref: "#/definitions/Project"                 
  *       404:
- *         description: 'Bad request'
+ *         description: 'Not Found'
  *         schema:
  *           type: object
  *           properties:
@@ -202,7 +202,7 @@ router.get('/:id', projectsController.getById)
  *     responses:
  *       201:
  *         description: recurso creado con éxito
- *       404:
+ *       400:
  *         description: 'Bad request'
  *         schema:
  *           type: object
@@ -230,7 +230,7 @@ router.post('/', projectsController.create)
  *     tags: [Projects]
  *     parameters:
  *     - name: 'id'
- *       in: param
+ *       in: path
  *       description: Id del proyecto que desea actualizar
  *       schema:
  *         type: integer
@@ -263,8 +263,16 @@ router.post('/', projectsController.create)
  *     responses:
  *       201:
  *         description: recurso actualizado con éxito
- *       404:
+ *       400:
  *         description: 'Bad request'
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: El usuario que intenta asociar al proyecto no existe
+ *       404:
+ *         description: 'Not Found'
  *         schema:
  *           type: object
  *           properties:
@@ -297,7 +305,7 @@ router.put('/:id', projectsController.update)
  *       200:
  *         description: 'operación exitosa'
  *       404:
- *         description: 'Bad request'
+ *         description: 'Not Found'
  *         schema:
  *           type: object
  *           properties:

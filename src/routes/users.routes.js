@@ -87,7 +87,7 @@ router.post('/', usersController.create)
  *     tags: [Users]
  *     parameters:
  *     - name: 'id'
- *       in: params
+ *       in: path
  *       description: 'Id del usuario a eliminar'
  *       schema:
  *         type: integer
@@ -95,6 +95,14 @@ router.post('/', usersController.create)
  *     responses:
  *       201:
  *         description: usuario eliminado con éxito
+ *       404:
+ *         description: 'Not Found'
+ *         schema:
+ *           type: object
+ *           properties:
+ *             error:
+ *               type: string
+ *               example: El usuario que intenta eliminar no existe
  *       500:
  *         description: Error de servidor
  *         schema: 

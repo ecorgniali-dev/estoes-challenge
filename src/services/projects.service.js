@@ -19,21 +19,7 @@ const getById = async (projectId) => {
 }
 
 const create = async (data) => {
-    const userExist = await usersRepositorie.getById(data.project_manager_id)
-    if (userExist === null) {
-        const error = new Error('The user you are trying to assign as project manager does not exist')
-        error.status = 404
-        throw error
-    }
-    for (let i = 0; i < data.users_id.length; i++) {
-        const userId = data.users_id[i]
-        const exist = await usersRepositorie.getById(userId)
-        if (exist === null) {
-            const error = new Error(`The user with id ${userId} you are trying to assign to the project does not exist`)
-            error.status = 404
-            throw error
-        }
-    }
+    await validationUserExist(data)
     const newProject = await projectsRepositorie.create(data)
     return newProject
 }
@@ -45,6 +31,7 @@ const update = async (projectId, newData) => {
         error.status = 404
         throw error
     }
+    await validationUserExist(newData)
     const projectUpdated = await projectsRepositorie.update(project, newData)
     return projectUpdated
 }
@@ -58,6 +45,25 @@ const remove = async (projectId) => {
     }
     const data = await projectsRepositorie.remove(projectId)
     return data
+}
+
+async function validationUserExist(data) {
+    const pmId = data.project_manager_id
+    const userExist = await usersRepositorie.getById(pmId)
+    if (userExist === null && pmId != undefined) {
+        const error = new Error('The user you are trying to assign as project manager does not exist')
+        error.status = 400
+        throw error
+    }
+    for (let i = 0; i < data.users_id.length; i++) {
+        const userId = data.users_id[i]
+        const exist = await usersRepositorie.getById(userId)
+        if (exist === null) {
+            const error = new Error(`The user with id ${userId} you are trying to assign to the project does not exist`)
+            error.status = 400
+            throw error
+        }
+    }
 }
 
 module.exports = {
