@@ -1,4 +1,7 @@
-const swaggerOptions = {
+// docSwagger
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocs = swaggerJsDoc({
     definition: {
         info: {
             title: 'Documentación API Rest Gestión de Proyectos',
@@ -7,6 +10,9 @@ const swaggerOptions = {
         }      
     },
     apis: ['./src/routes/*.js'],
-};
+})
 
-module.exports = swaggerOptions;
+module.exports = {
+    swaggerUi,
+    swaggerDocs
+}
