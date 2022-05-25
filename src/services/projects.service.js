@@ -1,4 +1,5 @@
 const projectsRepositorie = require('../repositories/projects.repositorie')
+const usersRepositorie = require('../repositories/users.repositorie')
 const { paginate } = require('../modules/pagination')
 
 const getAll = async (req) => {
@@ -18,6 +19,21 @@ const getById = async (projectId) => {
 }
 
 const create = async (data) => {
+    const userExist = await usersRepositorie.getById(data.project_manager_id)
+    if (userExist === null) {
+        const error = new Error('The user you are trying to assign as project manager does not exist')
+        error.status = 404
+        throw error
+    }
+    for (let i = 0; i < data.users_id.length; i++) {
+        const userId = data.users_id[i]
+        const exist = await usersRepositorie.getById(userId)
+        if (exist === null) {
+            const error = new Error(`The user with id ${userId} you are trying to assign to the project does not exist`)
+            error.status = 404
+            throw error
+        }
+    }
     const newProject = await projectsRepositorie.create(data)
     return newProject
 }
