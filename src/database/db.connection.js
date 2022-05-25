@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
     database.DB_PASS,
     {
         host: database.DB_HOST,
-        dialect: 'mysql', /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
+        dialect: database.DB_DIALECT,
         logging: false
     }
 )
